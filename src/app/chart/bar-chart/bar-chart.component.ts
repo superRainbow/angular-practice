@@ -3,13 +3,25 @@ import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
+import { ApiService } from 'src/app/api.service';
 
 @Component({
   templateUrl: './bar-chart.component.html',
   styleUrls: [ './bar-chart.component.scss' ],
 })
-export class BarChartComponent {
+export class BarChartComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
+
+  constructor(public api: ApiService) {}
+
+  ngOnInit() {
+    this.api.getData().subscribe((data:any) => {
+      console.log('init', data);
+      this.sort = data?.sort;
+    });
+  }
+
+  sort = '';
 
   public barChartOptions: ChartConfiguration['options'] = {
     responsive: true,
