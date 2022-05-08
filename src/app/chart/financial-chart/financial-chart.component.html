@@ -1,0 +1,14 @@
+<div class="chart">
+  <canvas
+    *ngIf="!loading"
+    baseChart
+    [data]="financialChartData"
+    [options]="options"
+    [type]="chartType"
+  >
+  </canvas>
+</div>
+<div>
+  <input type="text" [(ngModel)]="stockId" />
+  <button (click)="search()">search</button>
+</div>
