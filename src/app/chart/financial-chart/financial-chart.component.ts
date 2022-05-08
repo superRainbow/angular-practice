@@ -19,9 +19,10 @@ import dayjs from 'dayjs';
 })
 export class FinancialChartComponent implements OnInit {
   public loading = true;
-
+  public fields = [];
   public stockId = '0050';
   public chartType: ChartType = 'candlestick';
+
   public options: ChartConfiguration['options'] = {
     responsive: true,
     maintainAspectRatio: false,
@@ -37,6 +38,22 @@ export class FinancialChartComponent implements OnInit {
         },
         ticks: {
           source: 'auto',
+        },
+      },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          title: (item) => item[0].label,
+          label: (context) => {
+            console.log('context', context);
+            const index = context.dataIndex;
+            let labels = [];
+            for (let [key, value] of Object.entries(this.fields[index])) {
+              labels.push(`${key}：${value}`);
+            }
+            return labels;
+          },
         },
       },
     },
@@ -62,12 +79,22 @@ export class FinancialChartComponent implements OnInit {
   getStockData() {
     this.loading = true;
     this.api.getThisMoth(this.stockId).subscribe((res: any) => {
-      this.financialChartData.datasets = [this.setData(res)];
+      this.financialChartData.datasets = [this.setDatasets(res)];
+      this.fields = this.setData(res);
       this.loading = false;
     });
   }
 
   setData(res: any) {
+    let data: any = [];
+    res.data.map((item: [], i: number) => {
+      data.push({});
+      res.fields.map((name: string, f: number) => (data[i][name] = item[f]));
+    });
+    return data;
+  }
+
+  setDatasets(res: any) {
     return {
       label: res.title,
       data: res.data.map((item: any) => ({
