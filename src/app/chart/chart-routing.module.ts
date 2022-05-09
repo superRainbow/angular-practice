@@ -6,10 +6,15 @@ import { TimeAxisComponent } from './time-axis/time-axis.component';
 import { FinancialChartComponent } from './financial-chart/financial-chart.component';
 
 const routes: Routes = [
-  { path: '', component: ChartComponent },
-  { path: 'bar', component: BarChartComponent },
-  { path: 'time-axis', component: TimeAxisComponent },
-  { path: 'financial', component: FinancialChartComponent },
+  {
+    path: '',
+    component: ChartComponent,
+    children: [
+      { path: 'bar', component: BarChartComponent },
+      { path: 'time-axis', component: TimeAxisComponent },
+      { path: 'financial', component: FinancialChartComponent },
+    ],
+  },
 ];
 
 @NgModule({

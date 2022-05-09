@@ -1,1 +1,6 @@
-<p>chart works!</p>
+<ul>
+  <li *ngFor="let router of routers">
+    <a [routerLink]="router">{{ router }}</a>
+  </li>
+</ul>
+<router-outlet></router-outlet>
