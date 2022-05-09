@@ -9,6 +9,5 @@
   </canvas>
 </div>
 <div>
-  <input type="text" [(ngModel)]="stockId" />
-  <button (click)="search()">search</button>
+  <input type="text" [(ngModel)]="stockId" (keyup.enter)="search()" />
 </div>
